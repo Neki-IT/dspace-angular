@@ -1,3 +1,4 @@
+  /* eslint-disable max-classes-per-file */
 import {
   DEFAULT_ENTITY_TYPE,
   DEFAULT_REPRESENTATION_TYPE,
@@ -6,7 +7,7 @@ import {
 } from './metadata-representation.decorator';
 import { MetadataRepresentationType } from '../../core/shared/metadata-representation/metadata-representation.model';
 import { Context } from '../../core/shared/context.model';
-import * as uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import { environment } from '../../../environments/environment';
 
 let ogEnvironmentThemes;
@@ -20,7 +21,6 @@ describe('MetadataRepresentation decorator function', () => {
   const typeUnthemed = 'TestTypeUnthemed';
   let prefix;
 
-  /* tslint:disable:max-classes-per-file */
   class Test1PlainText {
   }
 
@@ -42,7 +42,7 @@ describe('MetadataRepresentation decorator function', () => {
   class TestUnthemedComponent {
   }
 
-  /* tslint:enable:max-classes-per-file */
+  /* eslint-enable max-classes-per-file */
 
   beforeEach(() => {
     prefix = uuidv4();

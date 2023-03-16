@@ -10,8 +10,6 @@ import { NotificationsService } from '../notifications.service';
 import { NotificationType } from '../models/notification-type';
 import { notificationsReducer } from '../notifications.reducers';
 import { NotificationOptions } from '../models/notification-options.model';
-import { INotificationBoardOptions } from '../../../../config/notifications-config.interfaces';
-import { GlobalConfig } from '../../../../config/global-config.interface';
 import { Notification } from '../models/notification.model';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../mocks/translate-loader.mock';
@@ -30,19 +28,9 @@ describe('NotificationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     const store: Store<Notification> = jasmine.createSpyObj('store', {
-      /* tslint:disable:no-empty */
+      /* eslint-disable no-empty, @typescript-eslint/no-empty-function */
       notifications: []
     });
-    const envConfig: GlobalConfig = {
-      notifications: {
-        rtl: false,
-        position: ['top', 'right'],
-        maxStack: 8,
-        timeOut: 5000,
-        clickToClose: true,
-        animate: 'scale'
-      } as INotificationBoardOptions,
-    } as any;
 
     TestBed.configureTestingModule({
       imports: [
@@ -110,7 +98,7 @@ describe('NotificationComponent', () => {
   it('should have html content', () => {
     fixture = TestBed.createComponent(NotificationComponent);
     comp = fixture.componentInstance;
-    const htmlContent = '<a class="btn btn-link p-0 m-0 pb-1" href="/test"><strong>test</strong></a>';
+    const htmlContent = '<a class="btn btn-link p-0 m-0 pb-1" href="test"><strong>test</strong></a>';
     comp.notification = {
       id: '1',
       type: NotificationType.Info,

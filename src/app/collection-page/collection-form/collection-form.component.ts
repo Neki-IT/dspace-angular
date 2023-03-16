@@ -10,13 +10,13 @@ import {
 } from '@ng-dynamic-forms/core';
 
 import { Collection } from '../../core/shared/collection.model';
-import { ComColFormComponent } from '../../shared/comcol-forms/comcol-form/comcol-form.component';
+import { ComColFormComponent } from '../../shared/comcol/comcol-forms/comcol-form/comcol-form.component';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { CommunityDataService } from '../../core/data/community-data.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { RequestService } from '../../core/data/request.service';
 import { ObjectCacheService } from '../../core/cache/object-cache.service';
-import { EntityTypeService } from '../../core/data/entity-type.service';
+import { EntityTypeDataService } from '../../core/data/entity-type-data.service';
 import { ItemType } from '../../core/shared/item-relationships/item-type.model';
 import { MetadataValue } from '../../core/shared/metadata.models';
 import { getFirstSucceededRemoteListPayload } from '../../core/shared/operators';
@@ -28,8 +28,8 @@ import { NONE_ENTITY_TYPE } from '../../core/shared/item-relationships/item-type
  */
 @Component({
   selector: 'ds-collection-form',
-  styleUrls: ['../../shared/comcol-forms/comcol-form/comcol-form.component.scss'],
-  templateUrl: '../../shared/comcol-forms/comcol-form/comcol-form.component.html'
+  styleUrls: ['../../shared/comcol/comcol-forms/comcol-form/comcol-form.component.scss'],
+  templateUrl: '../../shared/comcol/comcol-forms/comcol-form/comcol-form.component.html'
 })
 export class CollectionFormComponent extends ComColFormComponent<Collection> implements OnInit {
   /**
@@ -61,7 +61,7 @@ export class CollectionFormComponent extends ComColFormComponent<Collection> imp
                      protected dsoService: CommunityDataService,
                      protected requestService: RequestService,
                      protected objectCache: ObjectCacheService,
-                     protected entityTypeService: EntityTypeService) {
+                     protected entityTypeService: EntityTypeDataService) {
     super(formService, translate, notificationsService, authService, requestService, objectCache);
   }
 

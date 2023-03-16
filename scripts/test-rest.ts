@@ -1,24 +1,34 @@
 import * as http from 'http';
 import * as https from 'https';
-import { environment } from '../src/environments/environment';
+
+import { AppConfig } from '../src/config/app-config.interface';
+import { buildAppConfig } from '../src/config/config.server';
+
+const appConfig: AppConfig = buildAppConfig();
 
 /**
- * Script to test the connection with the configured REST API (in the 'rest' settings of your environment.*.ts)
+ * Script to test the connection with the configured REST API (in the 'rest' settings of your config.*.yaml)
  *
  * This script is useful to test for any Node.js connection issues with your REST API.
  *
- * Usage (see package.json): yarn test:rest-api
+ * Usage (see package.json): yarn test:rest
  */
 
 // Get root URL of configured REST API
-const restUrl = environment.rest.baseUrl + '/api';
+const restUrl = appConfig.rest.baseUrl + '/api';
 console.log(`...Testing connection to REST API at ${restUrl}...\n`);
 
 // If SSL enabled, test via HTTPS, else via HTTP
-if (environment.rest.ssl) {
+if (appConfig.rest.ssl) {
     const req = https.request(restUrl, (res) => {
         console.log(`RESPONSE: ${res.statusCode} ${res.statusMessage} \n`);
-        res.on('data', (data) => {
+        // We will keep reading data until the 'end' event fires.
+        // This ensures we don't just read the first chunk.
+        let data = '';
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+        res.on('end', () => {
             checkJSONResponse(data);
         });
     });
@@ -31,7 +41,13 @@ if (environment.rest.ssl) {
 } else {
     const req = http.request(restUrl, (res) => {
         console.log(`RESPONSE: ${res.statusCode} ${res.statusMessage} \n`);
-        res.on('data', (data) => {
+        // We will keep reading data until the 'end' event fires.
+        // This ensures we don't just read the first chunk.
+        let data = '';
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+        res.on('end', () => {
             checkJSONResponse(data);
         });
     });
@@ -55,7 +71,7 @@ function checkJSONResponse(responseData: any): any {
         console.log(`\t"dspaceVersion" = ${parsedData.dspaceVersion}`);
         console.log(`\t"dspaceUI" = ${parsedData.dspaceUI}`);
         console.log(`\t"dspaceServer" = ${parsedData.dspaceServer}`);
-        console.log(`\t"dspaceServer" property matches UI's "rest" config? ${(parsedData.dspaceServer === environment.rest.baseUrl)}`);
+        console.log(`\t"dspaceServer" property matches UI's "rest" config? ${(parsedData.dspaceServer === appConfig.rest.baseUrl)}`);
         // Check for "authn" and "sites" in "_links" section as they should always exist (even if no data)!
         const linksFound: string[] = Object.keys(parsedData._links);
         console.log(`\tDoes "/api" endpoint have HAL links ("_links" section)? ${linksFound.includes('authn') && linksFound.includes('sites')}`);

@@ -1,0 +1,21 @@
+{
+    "apps": [
+        {
+           "name": "dspace74",
+           "cwd": "C:\\Users\\neki\\Documents\\Projetos\\dspace74\\frontend\\",
+           "script": "dist\\server\\main.js",
+           "exec_mode": "cluster",
+           "env": {
+              "NODE_ENV": "production",
+	      "DSPACE_UI_SSL": "false",
+              "DSPACE_UI_HOST": "localhost",
+              "DSPACE_UI_PORT": "4000",
+              "DSPACE_UI_NAMESPACE": "/",
+	      "DSPACE_REST_SSL": "false",
+              "DSPACE_REST_HOST": "localhost",
+              "DSPACE_REST_PORT": "8080",
+              "DSPACE_REST_NAMESPACE": "/server"
+           }
+        }
+    ]
+}
