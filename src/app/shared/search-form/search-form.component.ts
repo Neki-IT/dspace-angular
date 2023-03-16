@@ -98,6 +98,9 @@ export class SearchFormComponent implements OnInit {
    * @param data Values submitted using the form
    */
   onSubmit(data: any) {
+    if (isNotEmpty(this.scope)) {
+      data = Object.assign(data, { scope: this.scope });
+    }
     this.updateSearch(data);
     this.submitSearch.emit(data);
   }
@@ -116,14 +119,11 @@ export class SearchFormComponent implements OnInit {
    */
   updateSearch(data: any) {
     const queryParams = Object.assign({}, data);
-    const pageParam = this.paginationService.getPageParam(this.searchConfig.paginationID);
-    queryParams[pageParam] = 1;
 
     this.router.navigate(this.getSearchLinkParts(), {
       queryParams: queryParams,
       queryParamsHandling: 'merge'
     });
-    this.paginationService.updateRouteWithUrl(this.searchConfig.paginationID, this.getSearchLinkParts(), { page: 1 }, data);
   }
 
   /**

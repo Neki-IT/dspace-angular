@@ -1,5 +1,5 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,7 @@ import { ResourceType } from '../../../core/shared/resource-type';
 import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
 import { PageInfo } from '../../../core/shared/page-info.model';
 import { RouterStub } from '../../../shared/testing/router.stub';
+import { BrowserOnlyMockPipe } from '../../../shared/testing/browser-only-mock.pipe';
 
 export function getMockEntityTypeService(): EntityTypeService {
   const pageInfo = { elementsPerPage: 20, totalElements: 4, totalPages: 1, currentPage: 0 } as PageInfo;
@@ -75,7 +76,7 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
   };
 
   describe('With only one Entity', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
           CommonModule,
@@ -83,7 +84,8 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
         ],
         declarations: [
           MyDSpaceNewExternalDropdownComponent,
-          TestComponent
+          TestComponent,
+          BrowserOnlyMockPipe
         ],
         providers: [
           { provide: EntityTypeService, useValue: getMockEmptyEntityTypeService() },
@@ -126,7 +128,7 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
   });
 
   describe('With more than one Entity', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
           CommonModule,
@@ -134,7 +136,8 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
         ],
         declarations: [
           MyDSpaceNewExternalDropdownComponent,
-          TestComponent
+          TestComponent,
+          BrowserOnlyMockPipe,
         ],
         providers: [
           { provide: EntityTypeService, useValue: getMockEntityTypeService() },
@@ -185,5 +188,5 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
 class TestComponent {
   reload = (event) => {
     return;
-  }
+  };
 }
