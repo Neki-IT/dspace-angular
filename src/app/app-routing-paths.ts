@@ -32,6 +32,12 @@ export function getBitstreamRequestACopyRoute(item, bitstream): { routerLink: st
   };
 }
 
+export const HOME_PAGE_PATH = 'admin';
+
+export function getHomePageRoute() {
+  return `/${HOME_PAGE_PATH}`;
+}
+
 export const ADMIN_MODULE_PATH = 'admin';
 
 export function getAdminModuleRoute() {
@@ -64,6 +70,12 @@ export function getWorkflowItemModuleRoute() {
   return `/${WORKFLOW_ITEM_MODULE_PATH}`;
 }
 
+export const WORKSPACE_ITEM_MODULE_PATH = 'workspaceitems';
+
+export function getWorkspaceItemModuleRoute() {
+  return `/${WORKSPACE_ITEM_MODULE_PATH}`;
+}
+
 export function getDSORoute(dso: DSpaceObject): string {
   if (hasValue(dso)) {
     switch ((dso as any).type) {
@@ -89,6 +101,14 @@ export function getPageNotFoundRoute() {
   return `/${PAGE_NOT_FOUND_PATH}`;
 }
 
+export const INTERNAL_SERVER_ERROR = '500';
+
+export function getPageInternalServerErrorRoute() {
+  return `/${INTERNAL_SERVER_ERROR}`;
+}
+
+export const ERROR_PAGE = 'error';
+
 export const INFO_MODULE_PATH = 'info';
 export function getInfoModulePath() {
   return `/${INFO_MODULE_PATH}`;
@@ -103,4 +123,12 @@ export function getAccessControlModuleRoute() {
 export const REQUEST_COPY_MODULE_PATH = 'request-a-copy';
 export function getRequestCopyModulePath() {
   return `/${REQUEST_COPY_MODULE_PATH}`;
+}
+
+export const HEALTH_PAGE_PATH = 'health';
+
+export const SUBSCRIPTIONS_MODULE_PATH = 'subscriptions';
+
+export function getSubscriptionsModuleRoute() {
+  return `/${SUBSCRIPTIONS_MODULE_PATH}`;
 }

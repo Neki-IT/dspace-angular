@@ -1,5 +1,5 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -7,14 +7,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of as observableOf } from 'rxjs';
 import { createPaginatedList, createTestComponent } from '../../../shared/testing/utils.test';
 import { MyDSpaceNewExternalDropdownComponent } from './my-dspace-new-external-dropdown.component';
-import { EntityTypeService } from '../../../core/data/entity-type.service';
+import { EntityTypeDataService } from '../../../core/data/entity-type-data.service';
 import { ItemType } from '../../../core/shared/item-relationships/item-type.model';
 import { ResourceType } from '../../../core/shared/resource-type';
 import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
 import { PageInfo } from '../../../core/shared/page-info.model';
 import { RouterStub } from '../../../shared/testing/router.stub';
+import { BrowserOnlyMockPipe } from '../../../shared/testing/browser-only-mock.pipe';
 
-export function getMockEntityTypeService(): EntityTypeService {
+export function getMockEntityTypeService(): EntityTypeDataService {
   const pageInfo = { elementsPerPage: 20, totalElements: 4, totalPages: 1, currentPage: 0 } as PageInfo;
   const type1: ItemType = {
     id: '1',
@@ -44,7 +45,7 @@ export function getMockEntityTypeService(): EntityTypeService {
   });
 }
 
-export function getMockEmptyEntityTypeService(): EntityTypeService {
+export function getMockEmptyEntityTypeService(): EntityTypeDataService {
   const pageInfo = { elementsPerPage: 20, totalElements: 1, totalPages: 1, currentPage: 0 } as PageInfo;
   const type1: ItemType = {
     id: '1',
@@ -75,7 +76,7 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
   };
 
   describe('With only one Entity', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
           CommonModule,
@@ -83,10 +84,11 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
         ],
         declarations: [
           MyDSpaceNewExternalDropdownComponent,
-          TestComponent
+          TestComponent,
+          BrowserOnlyMockPipe
         ],
         providers: [
-          { provide: EntityTypeService, useValue: getMockEmptyEntityTypeService() },
+          { provide: EntityTypeDataService, useValue: getMockEmptyEntityTypeService() },
           { provide: Router, useValue: new RouterStub() },
           MyDSpaceNewExternalDropdownComponent
         ],
@@ -126,7 +128,7 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
   });
 
   describe('With more than one Entity', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
           CommonModule,
@@ -134,10 +136,11 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
         ],
         declarations: [
           MyDSpaceNewExternalDropdownComponent,
-          TestComponent
+          TestComponent,
+          BrowserOnlyMockPipe,
         ],
         providers: [
-          { provide: EntityTypeService, useValue: getMockEntityTypeService() },
+          { provide: EntityTypeDataService, useValue: getMockEntityTypeService() },
           { provide: Router, useValue: new RouterStub() },
           MyDSpaceNewExternalDropdownComponent
         ],
@@ -185,5 +188,5 @@ describe('MyDSpaceNewExternalDropdownComponent test', () => {
 class TestComponent {
   reload = (event) => {
     return;
-  }
+  };
 }
