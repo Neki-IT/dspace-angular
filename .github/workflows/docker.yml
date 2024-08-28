@@ -43,7 +43,7 @@ jobs:
   dspace-angular:
     # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace-angular'
     if: github.repository == 'dspace/dspace-angular'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, acervos]
 
     steps:
       # https://github.com/actions/checkout
@@ -98,7 +98,7 @@ jobs:
   dspace-angular-dist:
     # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace-angular'
     if: github.repository == 'dspace/dspace-angular'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, acervos]
 
     steps:
       # https://github.com/actions/checkout
