@@ -10,7 +10,7 @@ on:
 
 jobs:
   triage:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, acervos]
     steps:
       # See: https://github.com/mschilde/auto-label-merge-conflicts/
       - name: Auto-label PRs with merge conflicts
