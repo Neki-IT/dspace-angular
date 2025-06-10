@@ -19,8 +19,8 @@ on:
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-  schedule:
-    - cron: "37 0 * * 1"
+  #schedule:
+    #- cron: "37 0 * * 1"
 
 jobs:
   analyze:
