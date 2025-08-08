@@ -19,13 +19,13 @@ on:
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-  schedule:
-    - cron: "37 0 * * 1"
+  #schedule:
+    #- cron: "37 0 * * 1"
 
 jobs:
   analyze:
     name: Analyze Code
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, acervos]
     # Limit permissions of this GitHub action. Can only write to security-events
     permissions:
       actions: read
