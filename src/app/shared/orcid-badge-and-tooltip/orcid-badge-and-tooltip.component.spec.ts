@@ -1,0 +1,78 @@
+import { NgClass } from '@angular/common';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
+
+import { ConfigurationDataService } from '../../core/data/configuration-data.service';
+import { MetadataValue } from '../../core/shared/metadata.models';
+import { OrcidBadgeAndTooltipComponent } from './orcid-badge-and-tooltip.component';
+
+describe('OrcidBadgeAndTooltipComponent', () => {
+  let component: OrcidBadgeAndTooltipComponent;
+  let fixture: ComponentFixture<OrcidBadgeAndTooltipComponent>;
+  let translateService: TranslateService;
+
+  beforeEach(async () => {
+    const configurationDataServiceStub = jasmine.createSpyObj('ConfigurationDataService', ['findByPropertyName']);
+    configurationDataServiceStub.findByPropertyName.and.returnValue(of({}));
+
+    await TestBed.configureTestingModule({
+      imports: [
+        OrcidBadgeAndTooltipComponent,
+        NgbTooltip,
+        NgClass,
+      ],
+      providers: [
+        { provide: TranslateService, useValue: { instant: (key: string) => key } },
+        { provide: ConfigurationDataService, useValue: configurationDataServiceStub },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(OrcidBadgeAndTooltipComponent);
+    component = fixture.componentInstance;
+    translateService = TestBed.inject(TranslateService);
+
+    component.orcid = { value: '0000-0002-1825-0097' } as MetadataValue;
+    component.authenticatedTimestamp = { value: '2023-10-01' } as MetadataValue;
+
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should set orcidTooltip when authenticatedTimestamp is provided', () => {
+    component.ngOnInit();
+    expect(component.orcidTooltip).toBe('person.orcid-tooltip.authenticated');
+  });
+
+  it('should set orcidTooltip when authenticatedTimestamp is not provided', () => {
+    component.authenticatedTimestamp = null;
+    component.ngOnInit();
+    expect(component.orcidTooltip).toBe('person.orcid-tooltip.not-authenticated');
+  });
+
+  it('should display the ORCID icon', () => {
+    const badgeIcon = fixture.debugElement.query(By.css('img[data-test="orcidIcon"]'));
+    expect(badgeIcon).toBeTruthy();
+  });
+
+  it('should display the filled green ORCID icon if there is an authenticated timestamp', () => {
+    const badgeIcon = fixture.debugElement.query(By.css('img[data-test="orcidIcon"]'));
+    expect(badgeIcon.nativeElement.getAttribute('src')).toEqual('assets/images/orcid.logo.icon.svg');
+  });
+
+  it('should display the green unfilled ORCID icon if there is no authenticated timestamp', () => {
+    component.authenticatedTimestamp = null;
+    fixture.detectChanges();
+    const badgeIcon = fixture.debugElement.query(By.css('img[data-test="orcidIcon"]'));
+    expect(badgeIcon.nativeElement.getAttribute('src')).toEqual('assets/images/orcid.logo.unauth.icon.svg');
+  });
+
+});
